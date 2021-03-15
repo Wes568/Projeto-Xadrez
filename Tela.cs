@@ -10,13 +10,13 @@ namespace Xadrez_console
             {
                 for(int y=0; y < tab.colunas; y++)
                 {
-                    if (tab.peca(i, y) == null)
+                    if (tab.peca(new Posicao(i, y)) == null)
                     {
                         Console.Write("- ");
                     }
                     else
                     {
-                        Console.Write(tab.peca(i, y) + " ");
+                        Console.Write(tab.peca(new Posicao(i, y)) + " ");
                     }
                 }
                 Console.WriteLine();
