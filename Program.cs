@@ -8,7 +8,12 @@ namespace Xadrez_console
     {
         static void Main(string[] args)
         {
-            try
+            PosicaoXadrez pos = new PosicaoXadrez('A', 1);
+            Console.WriteLine(pos);
+
+
+
+ /*           try
             {
                 Tabuleiro tab = new Tabuleiro(8, 8);
 
@@ -22,7 +27,7 @@ namespace Xadrez_console
             catch (TabuleiroException e)
             {
                 Console.WriteLine(e.Message);
-            }
+            }*/
         }
     }
 }
