@@ -17,5 +17,11 @@ namespace tabuleiro
         {
             return linha + ", " + coluna;
         }
+
+        public void definirVaores(int linha, int coluna)
+        {
+            this.linha = linha;
+            this.coluna = coluna;
+        }
     }
 }
