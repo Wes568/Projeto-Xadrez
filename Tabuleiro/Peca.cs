@@ -16,6 +16,12 @@ namespace tabuleiro
             this.qtdMovimentos = 0;
         }
 
+        protected Peca(Tabuleiro tab, Cor cor)
+        {
+            this.tab = tab;
+            this.cor = cor;
+        }
+
         public void incrementarQtdMovimentos()
         {
             qtdMovimentos++;

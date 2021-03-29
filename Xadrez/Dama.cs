@@ -1,18 +1,18 @@
-﻿using tabuleiro;
+﻿using System;
+using tabuleiro;
 
 namespace Xadrez
 {
-    class Torre : Peca
+    class Dama : Peca
     {
-        public Torre(Tabuleiro tab, Cor cor) : base(cor, tab)
+        public Dama(Tabuleiro tab, Cor cor) : base(tab, cor)
         {
 
         }
 
         public override string ToString()
         {
-            return "T";
-
+            return "D";
         }
 
         private bool podeMover(Posicao pos)
@@ -27,19 +27,68 @@ namespace Xadrez
 
             Posicao pos = new Posicao(0, 0);
 
+
+            //noroeste
+            pos.definirValores(posicao.linha - 1, posicao.coluna - 1);
+            while (tab.posicaoValida(pos) && podeMover(pos))
+            {
+                if (tab.peca(pos) != null && tab.peca(pos).cor != cor)
+                {
+                    mat[pos.linha, pos.coluna] = true;
+                    break;
+
+                }
+                pos.definirValores(pos.linha - 1, pos.coluna - 1);
+            }
+            //sudeste
+            pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
+            while (tab.posicaoValida(pos) && podeMover(pos))
+            {
+                if (tab.peca(pos) != null && tab.peca(pos).cor != cor)
+                {
+                    mat[pos.linha, pos.coluna] = true;
+                    break;
+
+                }
+                pos.definirValores(pos.linha + 1, pos.coluna + 1);
+            }
+            //sudoeste
+            pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
+            while (tab.posicaoValida(pos) && podeMover(pos))
+            {
+                if (tab.peca(pos) != null && tab.peca(pos).cor != cor)
+                {
+                    mat[pos.linha, pos.coluna] = true;
+                    break;
+
+                }
+                pos.definirValores(pos.linha + 1, pos.coluna - 1);
+            }
+            //nordeste
+            pos.definirValores(posicao.linha - 1, posicao.coluna + 1);
+            while (tab.posicaoValida(pos) && podeMover(pos))
+            {
+                if (tab.peca(pos) != null && tab.peca(pos).cor != cor)
+                {
+                    mat[pos.linha, pos.coluna] = true;
+                    break;
+
+                }
+                pos.definirValores(pos.linha - 1, pos.coluna + 1);
+            }
             //acima
             pos.definirValores(posicao.linha - 1, posicao.coluna);
             while (tab.posicaoValida(pos) && podeMover(pos))
             {
                 mat[pos.linha, pos.coluna] = true;
-                if(tab.peca(pos)!=null && tab.peca(pos).cor != cor)
+                if (tab.peca(pos) != null && tab.peca(pos).cor != cor)
                 {
                     break;
                 }
                 pos.linha = pos.linha - 1;
             }
             //direita
-            pos.definirValores(posicao.linha, posicao.coluna +1);
+            pos.definirValores(posicao.linha, posicao.coluna + 1);
             while (tab.posicaoValida(pos) && podeMover(pos))
             {
                 mat[pos.linha, pos.coluna] = true;
