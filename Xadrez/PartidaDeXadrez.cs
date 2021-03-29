@@ -20,10 +20,10 @@ namespace Xadrez
             turno = 1;
             jogadorAtual = Cor.Branca;
             terminada = false;
+            xeque = false;
             pecas = new HashSet<Peca>();
             capturadas = new HashSet<Peca>();
-            colocarPecas();
-            xeque = false;
+            colocarPecas();          
         }
         public Peca executarMovimento(Posicao origem, Posicao destino)
         {
@@ -53,15 +53,12 @@ namespace Xadrez
         public void realizaJogada(Posicao origem, Posicao destino)
         {
             Peca pecaCapturada = executarMovimento(origem, destino);
+
             if (estaEmXeque(jogadorAtual))
             {
                 desfazMovimento(origem, destino, pecaCapturada);
                 throw new TabuleiroException("Você não pode se colocar em xeque");
             }
-            executarMovimento(origem, destino);
-            turno++;
-            mudaJogador();
-
             if (estaEmXeque(adversaria(jogadorAtual)))
             {
                 xeque = true;
@@ -69,6 +66,17 @@ namespace Xadrez
             else
             {
                 xeque = false;
+            }
+            if (testeXequemate(adversaria(jogadorAtual)))
+            {
+                terminada = true;
+            }
+            else
+            {
+  //              executarMovimento(origem, destino);
+                turno++;
+                mudaJogador();
+
             }
         }
 
@@ -91,7 +99,7 @@ namespace Xadrez
 
         public void validarPosicaoDeDestino(Posicao origem, Posicao destino)
         {
-            if (!tab.peca(origem).podeMoverPara(destino))
+            if (!tab.peca(origem).movimentoPossivel(destino))
             {
                 throw new TabuleiroException("Posição de destino inválida!");
             }
@@ -182,6 +190,30 @@ namespace Xadrez
         {
             tab.colocarPeca(peca, new PosicaoXadrez(coluna, linha).toPosicao());
             pecas.Add(peca);
+        }
+
+         public bool testeXequemate(Cor cor) {
+            if (!estaEmXeque(cor)) {
+                return false;
+            }
+            foreach (Peca x in pecasEmJogo(cor)) {
+                bool[,] mat = x.movimentosPossiveis();
+                for (int i=0; i<tab.linhas; i++) {
+                    for (int y=0; y<tab.colunas; y++) {
+                        if (mat[i, y]) {
+                            Posicao origem = x.posicao;
+                            Posicao destino = new Posicao(i, y);
+                            Peca pecaCapturada = executarMovimento(origem, destino);
+                            bool testeXeque = estaEmXeque(cor);
+                            desfazMovimento(origem, destino, pecaCapturada);
+                            if (!testeXeque) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         private void colocarPecas() { 
